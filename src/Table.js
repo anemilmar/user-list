@@ -17,7 +17,7 @@ const TableHeader = () => {
 const TableBody = props => { 
     const rows = props.characterData.map((row, index) => {
         return (
-            <tr key={index}>
+            <tr key={row.id}>
                 <td>{row.id}</td>
                 <td>{row.fname}</td>
                 <td>{row.lname}</td>

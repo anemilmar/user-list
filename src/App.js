@@ -4,35 +4,44 @@ import Form from './Form';
 
 class App extends Component {
     state = {
-        characters: []
+        characters: [],
+        nextId: 1 // Счетчик для следующего ID
     };
 
     removeCharacter = index => {
         const { characters } = this.state;
-    
+
+        // Удаляем персонажа по индексу
         this.setState({
-            characters: characters.filter((character, i) => { 
-                return i !== index;
-            })
+            characters: characters.filter((_, i) => i !== index)
         });
     }
 
     handleSubmit = character => {
-        this.setState({characters: [...this.state.characters, character]});
+        const newCharacter = {
+            ...character,
+            id: this.state.nextId // Используем текущий счетчик ID
+        };
+
+        // Обновляем состояние с новым персонажем и увеличиваем счетчик
+        this.setState(prevState => ({
+            characters: [...prevState.characters, newCharacter],
+            nextId: prevState.nextId + 1 // Увеличиваем счетчик ID
+        }));
     }
 
     render() {
         const { characters } = this.state;
-        
+
         return (
             <div className="container">
-                <h1>React Tutorial</h1>
-                <p>Add a character with a name and a job to the table.</p>
+                <h1>Список пользователей</h1>
+                <p>Добавьте персонажа с именем, фамилией и электронной почтой в таблицу.</p>
                 <Table
                     characterData={characters}
                     removeCharacter={this.removeCharacter}
                 />
-                <h3>Add New</h3>
+                <h3>Добавить нового</h3>
                 <Form handleSubmit={this.handleSubmit} />
             </div>
         );
